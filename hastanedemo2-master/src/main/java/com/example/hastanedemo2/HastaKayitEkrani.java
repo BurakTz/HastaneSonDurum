@@ -45,17 +45,17 @@ public class HastaKayitEkrani {
             if (yatakNo != null && !yatakNo.isEmpty()) {
                 // Yatan hasta oluştur
                 YatanHastalar yeniHasta = new YatanHastalar(isim, soyisim, TC, Integer.parseInt(yatakNo));
-                showAlert(AlertType.INFORMATION, "Yatan Hasta Kayıt", "Yatan hasta başarıyla eklendi!", "Hasta: " + isim + " " + soyisim + ", Yatak No: " + yatakNo);
+                hataGoster(AlertType.INFORMATION, "Yatan Hasta Kayıt", "Yatan hasta başarıyla eklendi!", "Hasta: " + isim + " " + soyisim + ", Yatak No: " + yatakNo);
             } else {
                 // Normal hasta oluştur
                 Hastalar yeniHasta = new Hastalar(isim, soyisim, TC);
-                showAlert(AlertType.INFORMATION, "Hasta Kayıt", "Hasta başarıyla eklendi!", "Hasta: " + isim + " " + soyisim);
+                hataGoster(AlertType.INFORMATION, "Hasta Kayıt", "Hasta başarıyla eklendi!", "Hasta: " + isim + " " + soyisim);
             }
 
             // TextField'lari temizle
             alanlariTemizle();
         } catch (NumberFormatException e) {
-            showAlert(AlertType.ERROR, "Hata", "Geçersiz TC veya Yatak No", "Lütfen TC ve Yatak No alanlarına sadece sayı giriniz.");
+            hataGoster(AlertType.ERROR, "Hata", "Geçersiz TC veya Yatak No", "Lütfen TC ve Yatak No alanlarına sadece sayı giriniz.");
         }
     }
 
@@ -69,16 +69,16 @@ public class HastaKayitEkrani {
                 if (Hastalar.hastalar.get(i).getTC() == TC) {
                     Hastalar.hastalar.remove(i);
                     bulundu = true;
-                    showAlert(AlertType.INFORMATION, "Hasta Silme", "Hasta başarıyla silindi!", "TC: " + TC);
+                    hataGoster(AlertType.INFORMATION, "Hasta Silme", "Hasta başarıyla silindi!", "TC: " + TC);
                     break;
                 }
             }
             if (!bulundu) {
-                showAlert(AlertType.ERROR, "Hata", "Hasta bulunamadı", "Bu TC ile kayıtlı hasta yok.");
+                hataGoster(AlertType.ERROR, "Hata", "Hasta bulunamadı", "Bu TC ile kayıtlı hasta yok.");
             }
             TC2Entry.clear();
         } catch (NumberFormatException e) {
-            showAlert(AlertType.ERROR, "Hata", "Geçersiz TC", "Lütfen TC alanına sadece sayı giriniz.");
+            hataGoster(AlertType.ERROR, "Hata", "Geçersiz TC", "Lütfen TC alanına sadece sayı giriniz.");
         }
     }
 
@@ -87,24 +87,23 @@ public class HastaKayitEkrani {
     private void HastaListeleBt() {
         String liste = "Kayıtlı Hastalar:\n";
         for (Hastalar h : Hastalar.getHastalar())
-        if(h instanceof YatanHastalar)
-        {
-            liste += "Isim: " + h.isim + " " + h.soyisim + ", TC: " + h.getTC() + ", Oda No: " + ((YatanHastalar) h).getOdaNumarasi() + "\n";
-        }
-        else{
-            liste += "Isim: " + h.isim + " " + h.soyisim + ", TC: " + h.getTC() + "\n";
-        }
-        showAlert(AlertType.INFORMATION, "Hasta Listesi", "Hastalar", liste);
+            if (h instanceof YatanHastalar) {
+                liste += "Isim: " + h.isim + " " + h.soyisim + ", TC: " + h.getTC() + ", Oda No: " + ((YatanHastalar) h).getOdaNumarasi() + "\n";
+            } else {
+                liste += "Isim: " + h.isim + " " + h.soyisim + ", TC: " + h.getTC() + "\n";
+            }
+        hataGoster(AlertType.INFORMATION, "Hasta Listesi", "Hastalar", liste);
     }
 
     // Uyarı mesajları gösteren yardımcı metod
-    private void showAlert(AlertType type, String title, String header, String content) {
+    private void hataGoster(AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     // TextField'ları temizleyen metod
     private void alanlariTemizle() {
         isimEntry.clear();

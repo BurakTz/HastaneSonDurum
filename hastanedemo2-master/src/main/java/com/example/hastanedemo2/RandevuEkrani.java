@@ -49,6 +49,11 @@ public class RandevuEkrani {
     @FXML
     private void RandevuAlBt() {
         // Doktor ve saat seçimini kontrol et
+        if (hasta.randevu != null && !hasta.randevu.isEmpty()) {
+            randevuAl.setText("Hata: Daha önce randevu alındı.");
+            return;
+        }
+
         Doktorlar secilenDoktor = doktorComboBox.getSelectionModel().getSelectedItem();
         String secilenSaat = saatComboBox.getSelectionModel().getSelectedItem();
 

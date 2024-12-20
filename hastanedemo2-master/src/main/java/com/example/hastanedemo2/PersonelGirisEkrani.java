@@ -8,7 +8,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 import java.io.IOException;
+
 public class PersonelGirisEkrani {
     @FXML
     private Button doktorBt;
@@ -18,20 +22,26 @@ public class PersonelGirisEkrani {
 
     @FXML
     private Label PersonelGirisLable;
+
     @FXML
-    protected void onDoktorBtClick() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("doktorgiris.fxml"));
-        Pane root=null;
-        try{
-            root=loader.load();
-            Stage stage=new Stage();
+    protected void onDoktorBtClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("doktorgiris.fxml"));
+            Pane root = loader.load();
+            Stage stage = new Stage();
             stage.setTitle("Doktor Giriş Ekranı");
-            stage.setScene(new Scene(root,450,400));
+            stage.setScene(new Scene(root, 450, 400));
             stage.show();
-        }catch(IOException e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            hataGoster(AlertType.ERROR, "Hata!", "Ekran Yükleme Hatası", "Doktor Giriş ekranı yüklenirken bir hata oluştu: " + e.getMessage());
         }
     }
 
+    private void hataGoster(AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }
-

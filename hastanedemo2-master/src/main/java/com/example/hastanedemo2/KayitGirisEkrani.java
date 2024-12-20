@@ -4,13 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,29 +22,32 @@ public class KayitGirisEkrani {
     private TextField kayitSifreEntry;
 
     @FXML
-    private void onGirisYapBt3Click() throws IOException {
-        // Kullanıcıdan alınan TC ve şifre
+    private void onGirisYapBt3Click() {
         String tc = kayitTCEntry.getText();
         String sifre = kayitSifreEntry.getText();
 
-        // Doğru bilgileri kontrol et
         if ("1515".equals(tc) && "admin".equals(sifre)) {
-            // Yeni bir sayfa aç
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("kayitsecim.fxml"));
-            Parent yeniSayfa = loader.load();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("kayitsecim.fxml"));
+                Parent yeniSayfa = loader.load();
 
-            // Yeni bir pencere (Stage) oluştur
-            Stage stage = new Stage();
-            stage.setTitle("Kayit Seçim");
-            stage.setScene(new Scene(yeniSayfa));
-            stage.show();
+                Stage stage = new Stage();
+                stage.setTitle("Kayit Seçim");
+                stage.setScene(new Scene(yeniSayfa));
+                stage.show();
+            } catch (IOException e) {
+                hataGoster(AlertType.ERROR, "Hata!", "Ekran Yükleme Hatası", "Kayıt seçim ekranı yüklenirken bir hata oluştu: " + e.getMessage());
+            }
         } else {
-            // Hata mesajı göster
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("HATA");
-            alert.setHeaderText(null);
-            alert.setContentText("Yönetici bilgileri yanlış.");
-            alert.showAndWait();
+            hataGoster(AlertType.ERROR, "Hata!", null, "Yönetici bilgileri yanlış.");
         }
+    }
+
+    private void hataGoster(AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

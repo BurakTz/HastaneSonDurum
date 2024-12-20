@@ -53,10 +53,10 @@ public class PersonelKayitekrani {
             String sifre = EntryDoktorSifre.getText();
 
             Doktorlar yeniDoktor = new Doktorlar(isim, soyisim, TC, sifre, alan);
-            showAlert(AlertType.INFORMATION, "Doktor Kayıt", "Doktor başarıyla eklendi!", "Doktor: " + isim + " " + soyisim + ", Alan: " + alan);
+            hataGoster(AlertType.INFORMATION, "Doktor Kayıt", "Doktor başarıyla eklendi!", "Doktor: " + isim + " " + soyisim + ", Alan: " + alan);
             temizleDoktorAlani();
         } catch (NumberFormatException e) {
-            showAlert(AlertType.ERROR, "Hata", "Geçersiz TC", "Lütfen TC alanına sadece sayı giriniz.");
+            hataGoster(AlertType.ERROR, "Hata", "Geçersiz TC", "Lütfen TC alanına sadece sayı giriniz.");
         }
     }
 
@@ -70,16 +70,16 @@ public class PersonelKayitekrani {
                 if (Doktorlar.getDoktorlar().get(i).getTC() == TC) {
                     Doktorlar.getDoktorlar().remove(i);
                     bulundu = true;
-                    showAlert(AlertType.INFORMATION, "Doktor Silme", "Doktor başarıyla silindi!", "TC: " + TC);
+                    hataGoster(AlertType.INFORMATION, "Doktor Silme", "Doktor başarıyla silindi!", "TC: " + TC);
                     break;
                 }
             }
             if (!bulundu) {
-                showAlert(AlertType.ERROR, "Hata", "Doktor bulunamadı", "Bu TC ile kayıtlı doktor yok.");
+                hataGoster(AlertType.ERROR, "Hata", "Doktor bulunamadı", "Bu TC ile kayıtlı doktor yok.");
             }
             silTCEntryDoktor.clear();
         } catch (NumberFormatException e) {
-            showAlert(AlertType.ERROR, "Hata", "Geçersiz TC", "Lütfen TC alanına sadece sayı giriniz.");
+            hataGoster(AlertType.ERROR, "Hata", "Geçersiz TC", "Lütfen TC alanına sadece sayı giriniz.");
         }
     }
 
@@ -90,7 +90,7 @@ public class PersonelKayitekrani {
         for (Doktorlar d : Doktorlar.getDoktorlar()) {
             liste += "Isim: " + d.isim + " " + d.soyisim + ", TC: " + d.getTC() + ", Alan: " + d.alan + "\n";
         }
-        showAlert(AlertType.INFORMATION, "Doktor Listesi", "Doktorlar", liste);
+        hataGoster(AlertType.INFORMATION, "Doktor Listesi", "Doktorlar", liste);
     }
 
     // Hemşire eklemek icin
@@ -99,7 +99,7 @@ public class PersonelKayitekrani {
 
 
     // Uyarı mesajları gösteren yardımcı metod
-    private void showAlert(AlertType type, String title, String header, String content) {
+    private void hataGoster(AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
